@@ -5,10 +5,10 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>vn.zalopay.hack</groupId>
-  <artifactId>JavaConcurrency</artifactId>
+  <artifactId>JavaCore</artifactId>
   <version>1.0-SNAPSHOT</version>
 
-  <name>JavaConcurrency</name>
+  <name>JavaCore</name>
   <!-- FIXME change it to the project's website -->
   <url>http://www.example.com</url>
 
