@@ -1,28 +1,23 @@
 package vn.zalopay.zas.dubbo.DubboConsumer;
 
 import org.apache.dubbo.config.annotation.Reference;
+import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import vn.zalopay.zas.dubbo.model.mapping.BankRouteRequest;
-import vn.zalopay.zas.dubbo.model.mapping.BankRouteResponse;
-import vn.zalopay.zas.dubbo.model.mapping.Channel;
 import vn.zalopay.zas.dubbo.model.transaction.*;
 import vn.zalopay.zas.dubbo.service.TransactionService;
-import vn.zalopay.zas.dubbo.service.ZASBankMappingService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 @SpringBootApplication
 public class DubboConsumerApplication {
 
-  @Reference(version = "0.0.3", group = "zas-dev", timeout = 3000, filter = "consumerFilter")
+  @Reference(version = "0.0.3", group = "zas-dev", filter = "consumerFilter")
   private TransactionService transactionService;
-
-  @Reference(version = "0.0.1", group = "zas-bank-mapping-dev")
-  private ZASBankMappingService zasBankMappingService;
 
   public static void main(String[] args) {
     SpringApplication.run(DubboConsumerApplication.class, args);
@@ -30,23 +25,7 @@ public class DubboConsumerApplication {
 
   @Bean
   public ApplicationRunner runner() {
-    return bankRoute();
-  }
-
-  ApplicationRunner bankRoute() {
-    return args -> {
-      BankRouteRequest request =
-          BankRouteRequest.builder()
-              .bankConnectorCode("ZPCS")
-              .mid("vngcorp")
-              .channel(Channel.CHANNEL_GATEWAY)
-              .subTransType(2101)
-              .accountingCode("1010001001")
-              .build();
-
-      BankRouteResponse response = zasBankMappingService.bankRoute(request);
-      System.out.println(response.getData().getAccountingId());
-    };
+    return transQuery();
   }
 
   ApplicationRunner transQuery() {
