@@ -1,12 +1,10 @@
 package vn.zalopay.hack.vertx.echo;
 
-import io.netty.channel.EventLoop;
 import io.vertx.core.Vertx;
-import io.vertx.core.impl.EventLoopContext;
 import io.vertx.core.net.NetClient;
 import io.vertx.core.net.NetSocket;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.lang.invoke.MethodHandles;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -14,7 +12,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 /** Created by thuyenpt Date: 2020-03-15 */
 public class EchoClient {
   private static final Logger LOGGER =
-      LogManager.getLogger(MethodHandles.lookup().lookupClass().getCanonicalName());
+      LoggerFactory.getLogger(MethodHandles.lookup().lookupClass().getCanonicalName());
 
   public static void main(String[] args) {
     Vertx vertx = Vertx.vertx();
@@ -39,7 +37,7 @@ public class EchoClient {
           vertx.close();
         });
       } else {
-        LOGGER.error(res.cause().getCause());
+        LOGGER.error(res.cause().getCause().getMessage());
         netClient.close();
       }
     });

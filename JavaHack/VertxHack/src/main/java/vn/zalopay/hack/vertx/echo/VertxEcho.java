@@ -2,8 +2,8 @@ package vn.zalopay.hack.vertx.echo;
 
 import io.vertx.core.Vertx;
 import io.vertx.core.net.NetSocket;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.lang.invoke.MethodHandles;
 
@@ -11,7 +11,7 @@ import java.lang.invoke.MethodHandles;
 public class VertxEcho {
   //-Dlog4j.configurationFile=./conf/log4j2.xml
   private static final Logger LOGGER =
-      LogManager.getLogger(MethodHandles.lookup().lookupClass().getCanonicalName());
+      LoggerFactory.getLogger(MethodHandles.lookup().lookupClass().getCanonicalName());
   private static int numberOfConnection = 0;
 
   public static void main(String[] args) {
