@@ -25,7 +25,7 @@ import java.util.List;
 @SpringBootApplication
 public class DubboConsumerApplication {
 
-  @Reference(version = "0.0.3", group = "zas-dev", timeout = 3000, filter = "consumerFilter")
+  @Reference(version = "0.0.5", group = "zas-local", timeout = 3000, filter = "consumerFilter", retries = 0)
   private TransactionService transactionService;
 
   @Reference(version = "0.0.1", group = "zas-bank-mapping-dev")
@@ -37,7 +37,7 @@ public class DubboConsumerApplication {
 
   @Bean
   public ApplicationRunner runner() {
-    return bankRoute();
+    return transRevert();
   }
 
   ApplicationRunner bankRoute() {
@@ -67,6 +67,26 @@ public class DubboConsumerApplication {
       TransQueryResponse response = transactionService.transQuery(request);
 
       System.out.println(response.toString());
+    };
+  }
+
+  ApplicationRunner transRevert() {
+    return args -> {
+      TransEnvironment env =
+          TransEnvironment.builder()
+              .accountingTime(System.currentTimeMillis())
+              .globalTransId("1584690983168")
+              //.flowId("0") // Define by Accounting PO
+              .build();
+      TransRevertRequest revertRequest =
+          TransRevertRequest.builder()
+              .revertedByCase(TransRevertRequest.RevertedByCase.TRANS_ID)
+              .transId("1584690983168")
+              .environment(env)
+              .build();
+
+      TransRevertResponse revertResponse = transactionService.transRevert(revertRequest);
+      System.out.println(revertResponse.toString());
     };
   }
 
