@@ -1,15 +1,20 @@
 package vn.zalopay.hack.synchronize;
 
 /** Created by thuyenpt Date: 2020-03-25 */
-class Change {
-  public volatile int num = 0;
 
-  public synchronized void increase(int i) {
-    if (i == 100000) {
-      return;
+class Data {
+  public int num;
+}
+
+class Change {
+  public final Data dataChange = new Data();
+
+  public void increase() {
+    for (int i = 0; i < 100000; i++) {
+      synchronized (dataChange) {
+        dataChange.num++;
+      }
     }
-    num++;
-    increase(++i);
   }
 }
 
@@ -17,15 +22,14 @@ public class Synchronize {
 
   public static void main(String[] args) throws InterruptedException {
     Change change = new Change();
-    Thread thread1 = new Thread(() -> change.increase(0));
+    Thread thread1 = new Thread(change::increase);
     thread1.start();
 
-    Thread thread2 = new Thread(() -> change.increase(0));
+    Thread thread2 = new Thread(change::increase);
     thread2.start();
 
     thread1.join();
     thread2.join();
-
-    System.out.println(change.num);
+    System.out.println(change.dataChange.num);
   }
 }
