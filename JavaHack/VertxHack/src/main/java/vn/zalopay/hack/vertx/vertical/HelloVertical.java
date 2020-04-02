@@ -17,14 +17,19 @@ public class HelloVertical extends AbstractVerticle {
   public static void main(String[] args) {
     Vertx vertx = Vertx.vertx();
     vertx.deployVerticle(() -> new AbstractVerticle() {
-
       @Override
       public void start(Promise<Void> startPromise) throws Exception {
         vertx.setPeriodic(1000, event -> LOGGER.info("Tick: {}", event));
         vertx.createHttpServer().requestHandler(event -> {
           LOGGER.info("Request from: {}", event.remoteAddress().host());
           event.response().end("Hello from server!");
-        }).listen(8080);
+        }).listen(8080, rs -> {
+          if (rs.succeeded()) {
+            startPromise.complete();
+          } else {
+            startPromise.fail(rs.cause());
+          }
+        });
         LOGGER.info("Http server listening at {}", 8080);
       }
     }, new DeploymentOptions().setInstances(2));
