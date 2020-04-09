@@ -11,7 +11,17 @@
 
     <artifactId>CoreHack</artifactId>
 
+    <properties>
+        <guava.version>28.2-jre</guava.version>
+    </properties>
+
     <dependencies>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>${guava.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -53,6 +63,5 @@
             <artifactId>disruptor</artifactId>
             <version>${disruptor.version}</version>
         </dependency>
-
     </dependencies>
 </project>

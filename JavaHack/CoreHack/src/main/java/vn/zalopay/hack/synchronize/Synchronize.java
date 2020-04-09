@@ -1,5 +1,9 @@
 package vn.zalopay.hack.synchronize;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
 /** Created by thuyenpt Date: 2020-03-25 */
 
 class Data {
@@ -7,14 +11,22 @@ class Data {
 }
 
 class Change {
+  public List<Long> longs = new ArrayList<>();
   public final Data dataChange = new Data();
 
-  public void increase() {
-    for (int i = 0; i < 100000; i++) {
-      synchronized (dataChange) {
-        dataChange.num++;
-      }
+  public synchronized void hold() {
+    try {
+      System.out.println("Start sleeping");
+      TimeUnit.SECONDS.sleep(5);
+      System.out.println("Complete sleeping");
+    } catch (InterruptedException e) {
+      e.printStackTrace();
     }
+  }
+
+  public void modify() {
+    System.out.println("Size: " + longs.size());
+    longs.add(0, 100L);
   }
 }
 
@@ -22,14 +34,17 @@ public class Synchronize {
 
   public static void main(String[] args) throws InterruptedException {
     Change change = new Change();
-    Thread thread1 = new Thread(change::increase);
+    change.longs.add(1L);
+    change.longs.add(2L);
+    change.longs.add(3L);
+    Thread thread1 = new Thread(change::hold);
     thread1.start();
 
-    Thread thread2 = new Thread(change::increase);
+    TimeUnit.SECONDS.sleep(1);
+
+    Thread thread2 = new Thread(change::hold);
     thread2.start();
 
-    thread1.join();
-    thread2.join();
-    System.out.println(change.dataChange.num);
+    System.out.println("Main wait");
   }
 }

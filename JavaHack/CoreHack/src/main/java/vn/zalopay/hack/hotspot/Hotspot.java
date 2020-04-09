@@ -38,9 +38,9 @@ public class Hotspot {
 
     new Thread(
             () -> {
-              System.out.println("Threading 1: try to get lock of item 0");
+              System.out.println("Thread 1: try to get lock of item 0");
               if (subs.get(0).lock.isLocked()) {
-                System.out.println("Threading 1: item 0 is locked");
+                System.out.println("Thread 1: item 0 is locked");
               } else {
                 AtomicInteger counter = new AtomicInteger(0);
                 subs.forEach(relation -> {
@@ -50,7 +50,7 @@ public class Hotspot {
                   }
                 });
                 subs.get(0).lock.lock();
-                System.out.println("Threading 1: lock success");
+                System.out.println("Thread 1: lock success");
                 try {
                   TimeUnit.SECONDS.sleep(5);
                   subs.get(0).lock.unlock();
@@ -66,14 +66,14 @@ public class Hotspot {
     new Thread(
             () -> {
               while (true) {
-                System.out.println("Threading 2: try to get lock of item 0");
+                System.out.println("Thread 2: try to get lock of item 0");
                 try {
                   if (subs.get(0).lock.tryLock(1, TimeUnit.SECONDS)) break;
                 } catch (InterruptedException e) {
                   e.printStackTrace();
                 }
               }
-              System.out.println("Threading 2: lock success");
+              System.out.println("Thread 2: lock success");
             })
         .start();
 

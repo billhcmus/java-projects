@@ -1,17 +1,10 @@
 package vn.zalopay.zas.dubbo.DubboConsumer;
 
 import org.apache.dubbo.config.annotation.Reference;
-import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import vn.zalopay.zas.dubbo.model.transaction.*;
-import vn.zalopay.zas.dubbo.service.TransactionService;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.Consumer;
 import vn.zalopay.zas.dubbo.model.mapping.BankRouteRequest;
 import vn.zalopay.zas.dubbo.model.mapping.BankRouteResponse;
 import vn.zalopay.zas.dubbo.model.mapping.Channel;
