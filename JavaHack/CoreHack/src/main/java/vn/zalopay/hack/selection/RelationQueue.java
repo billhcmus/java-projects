@@ -40,19 +40,18 @@ public class RelationQueue extends Selection implements RelationSelection {
 
   @Override
   public synchronized List<Long> getAvailableKeys(int numberAccountNeedLoad) {
-//    List<Relation> resultRelations = new ArrayList<>();
-//    if (this.availableRelations.size() > numberAccountNeedLoad) {
-//      System.out.println("don't need poll");
-//      this.availableRelations.drainTo(resultRelations, numberAccountNeedLoad);
-//      return resultRelations.stream()
-//          .map(
-//              relation -> {
-//                relation.setLocked(true);
-//                relation.setLockBy("trans_id");
-//                return relation.getSubAccountId();
-//              })
-//          .collect(Collectors.toList());
-//    }
+    List<Relation> resultRelations = new ArrayList<>();
+    if (this.availableRelations.size() > numberAccountNeedLoad) {
+      this.availableRelations.drainTo(resultRelations, numberAccountNeedLoad);
+      return resultRelations.stream()
+          .map(
+              relation -> {
+                relation.setLocked(true);
+                relation.setLockBy("trans_id");
+                return relation.getSubAccountId();
+              })
+          .collect(Collectors.toList());
+    }
 
     List<Long> loadedKeys = new ArrayList<>();
     int numberKeyLoaded = 0;
