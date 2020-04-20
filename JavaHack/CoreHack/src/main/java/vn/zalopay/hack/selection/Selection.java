@@ -25,7 +25,6 @@ public abstract class Selection {
               for (int i = 0; i < 12800; i++) {
                 List<Long> result = getAvailableKeys(n);
                 if (result == null) {
-                  //                  System.out.println("failed to get available key");
                   i--;
                 } else {
                   resultQueue.add(Event.builder().listKey(result).build());
@@ -60,8 +59,6 @@ public abstract class Selection {
   }
 
   public void startWorker() {
-    //    acquireThread.forEach(Thread::start);
-    //    releaseThread.forEach(Thread::start);
     for (Thread thread : acquireThread) {
       try {
         thread.join();

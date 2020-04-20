@@ -1,20 +1,40 @@
 package vn.zalopay.hack;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-
-/**
- * Hello world!
- */
+/** Hello world! */
 public class CoreHack {
-  public static void main(String[] args) {
-//    System.out.println("Hello World!");
-//    Bar bar = new BarImpl();
-    String str = "x";
+  static long numAccountNeedLoadByAccountChange = 72;
 
-    String other = Optional.ofNullable(str).orElse("");
-    System.out.println(other);
+  private static int calculateNumberAccountNeedLoad(
+      int numberOfSubAccounts, int numberOfAvailableSubAccounts) {
+    long finalNumAccountWillLoad;
+    finalNumAccountWillLoad = Math.min(numAccountNeedLoadByAccountChange, numberOfSubAccounts);
+    if (finalNumAccountWillLoad > numberOfAvailableSubAccounts) {
+      long anchor = numberOfSubAccounts / 4;
+      if (numberOfAvailableSubAccounts > anchor) {
+        finalNumAccountWillLoad = numberOfAvailableSubAccounts;
+      } else {
+        finalNumAccountWillLoad = anchor;
+      }
+    }
+
+    return Math.toIntExact(finalNumAccountWillLoad);
+  }
+  private static int calculateNumberAccountNeedLoadV2(
+          int numberOfSubAccounts, int numberOfAvailableSubAccounts) {
+
+    long finalNumAccountWillLoad = Math.min(numAccountNeedLoadByAccountChange, numberOfSubAccounts);
+    if (finalNumAccountWillLoad > numberOfAvailableSubAccounts) {
+      long anchor = numberOfSubAccounts / 4;
+      finalNumAccountWillLoad = Math.max(anchor, numberOfAvailableSubAccounts);
+    }
+
+    return Math.toIntExact(finalNumAccountWillLoad);
+  }
+
+  public static void main(String[] args) {
+    int n = calculateNumberAccountNeedLoad(128, 120);
+    System.out.println(n);
+    n = calculateNumberAccountNeedLoadV2(128, 120);
+    System.out.println("v2: " + n);
   }
 }
