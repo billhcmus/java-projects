@@ -21,6 +21,9 @@
             </modules>
         </profile>
     </profiles>
+    <modules>
+        <module>EffectiveJava</module>
+    </modules>
 
     <name>JavaHack</name>
 
