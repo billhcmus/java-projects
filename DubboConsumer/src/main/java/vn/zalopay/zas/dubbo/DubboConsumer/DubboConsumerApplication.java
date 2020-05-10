@@ -18,11 +18,11 @@ import java.util.List;
 @SpringBootApplication
 public class DubboConsumerApplication {
 
-  @Reference(version = "0.0.5", group = "zas-local", timeout = 3000, filter = "consumerFilter", retries = 0)
+  @Reference(version = "0.0.7", group = "zas-dev", timeout = 3000, filter = "consumerFilter", retries = 0)
   private TransactionService transactionService;
-
-  @Reference(version = "0.0.1", group = "zas-bank-mapping-dev")
-  private ZASBankMappingService zasBankMappingService;
+//
+//  @Reference(version = "0.0.1", group = "zas-bank-mapping-dev")
+//  private ZASBankMappingService zasBankMappingService;
 
   public static void main(String[] args) {
     SpringApplication.run(DubboConsumerApplication.class, args);
@@ -30,31 +30,31 @@ public class DubboConsumerApplication {
 
   @Bean
   public ApplicationRunner runner() {
-    return transRevert();
+    return transRecord();
   }
-
-  ApplicationRunner bankRoute() {
-    return args -> {
-      BankRouteRequest request =
-          BankRouteRequest.builder()
-              .bankConnectorCode("ZPCS")
-              .mid("vngcorp")
-              .channel(Channel.CHANNEL_GATEWAY)
-              .subTransType(2101)
-              .accountingCode("1010001001")
-              .build();
-
-      BankRouteResponse response = zasBankMappingService.bankRoute(request);
-      System.out.println(response.getData().getAccountingId());
-    };
-  }
+//
+//  ApplicationRunner bankRoute() {
+//    return args -> {
+//      BankRouteRequest request =
+//          BankRouteRequest.builder()
+//              .bankConnectorCode("ZPCS")
+//              .mid("vngcorp")
+//              .channel(Channel.CHANNEL_GATEWAY)
+//              .subTransType(2101)
+//              .accountingCode("1010001001")
+//              .build();
+//
+//      BankRouteResponse response = zasBankMappingService.bankRoute(request);
+//      System.out.println(response.getData().getAccountingId());
+//    };
+//  }
 
   ApplicationRunner transQuery() {
     return args -> {
       TransQueryRequest request =
           TransQueryRequest.builder()
               .queryByCase(TransQueryRequest.QueryByCase.TRANS_ID)
-              .transId("1584094281248")
+              .transId("1587539495101")
               .build();
 
       TransQueryResponse response = transactionService.transQuery(request);

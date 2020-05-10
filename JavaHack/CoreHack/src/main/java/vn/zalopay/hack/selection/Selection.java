@@ -1,6 +1,7 @@
 package vn.zalopay.hack.selection;
 
 import vn.zalopay.hack.selection.entity.Event;
+import vn.zalopay.hack.selection.entity.Flow;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +15,7 @@ public abstract class Selection {
   private List<Thread> releaseThread = new ArrayList<>();
   private AtomicInteger errorCounter = new AtomicInteger(0);
 
-  public abstract List<Long> getAvailableKeys(int n);
+  public abstract List<Long> getAvailableKeys(int n, Flow flow);
 
   public abstract void releaseRelations(List<Long> lockedKey);
 
@@ -23,7 +24,7 @@ public abstract class Selection {
         new Thread(
             () -> {
               for (int i = 0; i < 12800; i++) {
-                List<Long> result = getAvailableKeys(n);
+                List<Long> result = getAvailableKeys(n, Flow.IN);
                 if (result == null) {
                   i--;
                 } else {

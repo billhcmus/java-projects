@@ -60,7 +60,7 @@
 		<dependency>
 			<groupId>vn.zalopay.zas</groupId>
 			<artifactId>zas-dubbo-api</artifactId>
-			<version>0.0.5</version>
+			<version>0.0.7</version>
 		</dependency>
 		<!-- Apache Dubbo  -->
 		<dependency>
@@ -81,12 +81,6 @@
 			<groupId>org.apache.dubbo</groupId>
 			<artifactId>dubbo-registry-nacos</artifactId>
 			<version>${dubbo.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>com.alibaba.nacos</groupId>
-			<artifactId>nacos-client</artifactId>
-			<version>${nacos.version}</version>
 		</dependency>
 	</dependencies>
 

@@ -32,7 +32,7 @@ public class Runner {
           Relation.builder().subAccountId(i).isLocked(false).lock(new ReentrantLock()).build());
     }
     ImmutableList<Relation> relations = ImmutableList.copyOf(relationList);
-    relationSelection = new RelationRing(relations);
+    relationSelection = new DoublyRelationRing(relations);
   }
 
   @Benchmark

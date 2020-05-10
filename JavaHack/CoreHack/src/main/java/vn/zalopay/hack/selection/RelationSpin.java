@@ -1,6 +1,7 @@
 package vn.zalopay.hack.selection;
 
 import com.google.common.collect.ImmutableList;
+import vn.zalopay.hack.selection.entity.Flow;
 import vn.zalopay.hack.selection.entity.Relation;
 
 import java.util.*;
@@ -13,7 +14,7 @@ public class RelationSpin extends Selection implements RelationSelection {
     this.relations = relations;
   }
   @Override
-  public List<Long> getAvailableKeys(int n) {
+  public List<Long> getAvailableKeys(int n, Flow flow) {
     Map<Long, Long> mapAvailableKeys = new HashMap<>();
     getAvailableKeys(mapAvailableKeys, relations, n, 0);
     return new ArrayList<>(mapAvailableKeys.values());

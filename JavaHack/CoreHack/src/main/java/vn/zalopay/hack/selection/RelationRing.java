@@ -2,6 +2,7 @@ package vn.zalopay.hack.selection;
 
 import com.google.common.collect.ImmutableList;
 import lombok.ToString;
+import vn.zalopay.hack.selection.entity.Flow;
 import vn.zalopay.hack.selection.entity.Relation;
 
 import java.util.ArrayList;
@@ -31,7 +32,7 @@ public class RelationRing extends Selection implements RelationSelection {
     }
   }
 
-  public synchronized List<Long> getAvailableKeys(int needLoadKey) {
+  public synchronized List<Long> getAvailableKeys(int needLoadKey, Flow flow) {
     List<Long> availableKeys = new ArrayList<>();
     int roundTimes = 0;
     int loadedKey = 0;

@@ -2,6 +2,7 @@ package vn.zalopay.hack.selection;
 
 import com.google.common.collect.ImmutableList;
 import lombok.Getter;
+import vn.zalopay.hack.selection.entity.Flow;
 import vn.zalopay.hack.selection.entity.Relation;
 
 import java.util.ArrayList;
@@ -39,7 +40,7 @@ public class RelationQueue extends Selection implements RelationSelection {
   }
 
   @Override
-  public synchronized List<Long> getAvailableKeys(int numberAccountNeedLoad) {
+  public synchronized List<Long> getAvailableKeys(int numberAccountNeedLoad, Flow flow) {
     List<Relation> resultRelations = new ArrayList<>();
     if (this.availableRelations.size() > numberAccountNeedLoad) {
       this.availableRelations.drainTo(resultRelations, numberAccountNeedLoad);
