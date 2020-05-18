@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 /** Created by thuyenpt Date: 5/10/20 */
 @Component
 @Log4j2
+@Getter
 public class Person {
   @Getter Pet pet;
 
