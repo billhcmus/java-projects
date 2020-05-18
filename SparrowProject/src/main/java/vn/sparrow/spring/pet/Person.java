@@ -9,8 +9,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Log4j2
 public class Person {
-
-  @Getter private final Pet pet;
+  @Getter Pet pet;
 
   public Person(@Qualifier("dog") Pet pet) {
     this.pet = pet;

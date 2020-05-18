@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
  * Created by thuyenpt
  * Date: 5/10/20
  */
-@Component
+@Component("cat")
 @Log4j2
 public class Cat implements Pet {
   @Override

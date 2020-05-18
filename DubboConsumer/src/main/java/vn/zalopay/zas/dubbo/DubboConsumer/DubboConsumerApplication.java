@@ -18,11 +18,19 @@ import java.util.List;
 @SpringBootApplication
 public class DubboConsumerApplication {
 
-  @Reference(version = "0.0.7", group = "zas-dev", timeout = 3000, filter = "consumerFilter", retries = 0)
+  //  @Reference(version = "0.0.7", group = "zas-dev", timeout = 3000, filter = "consumerFilter",
+  // retries = 0)
+  @Reference(
+      url = "10.60.45.57:8096",
+      version = "0.0.7",
+      group = "zas-loadtest",
+      timeout = 3000,
+      filter = "consumerFilter",
+      retries = 0)
   private TransactionService transactionService;
-//
-//  @Reference(version = "0.0.1", group = "zas-bank-mapping-dev")
-//  private ZASBankMappingService zasBankMappingService;
+  //
+  //  @Reference(version = "0.0.1", group = "zas-bank-mapping-dev")
+  //  private ZASBankMappingService zasBankMappingService;
 
   public static void main(String[] args) {
     SpringApplication.run(DubboConsumerApplication.class, args);
@@ -32,22 +40,22 @@ public class DubboConsumerApplication {
   public ApplicationRunner runner() {
     return transRecord();
   }
-//
-//  ApplicationRunner bankRoute() {
-//    return args -> {
-//      BankRouteRequest request =
-//          BankRouteRequest.builder()
-//              .bankConnectorCode("ZPCS")
-//              .mid("vngcorp")
-//              .channel(Channel.CHANNEL_GATEWAY)
-//              .subTransType(2101)
-//              .accountingCode("1010001001")
-//              .build();
-//
-//      BankRouteResponse response = zasBankMappingService.bankRoute(request);
-//      System.out.println(response.getData().getAccountingId());
-//    };
-//  }
+  //
+  //  ApplicationRunner bankRoute() {
+  //    return args -> {
+  //      BankRouteRequest request =
+  //          BankRouteRequest.builder()
+  //              .bankConnectorCode("ZPCS")
+  //              .mid("vngcorp")
+  //              .channel(Channel.CHANNEL_GATEWAY)
+  //              .subTransType(2101)
+  //              .accountingCode("1010001001")
+  //              .build();
+  //
+  //      BankRouteResponse response = zasBankMappingService.bankRoute(request);
+  //      System.out.println(response.getData().getAccountingId());
+  //    };
+  //  }
 
   ApplicationRunner transQuery() {
     return args -> {
@@ -69,7 +77,7 @@ public class DubboConsumerApplication {
           TransEnvironment.builder()
               .accountingTime(System.currentTimeMillis())
               .globalTransId("1584690983168")
-              //.flowId("0") // Define by Accounting PO
+              // .flowId("0") // Define by Accounting PO
               .build();
       TransRevertRequest revertRequest =
           TransRevertRequest.builder()
@@ -89,7 +97,7 @@ public class DubboConsumerApplication {
       entries.add(
           Entry.builder()
               .type(EntryType.DEBIT_CREDIT)
-              .sourceId(16329077721989135L)
+              .sourceId(2524920133255680L)
               .destinationId(16329077092843534L) // 16329077092843534L
               .amount(10000000)
               .currencyCode(704)
