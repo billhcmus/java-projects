@@ -20,13 +20,13 @@
 		<nacos.version>1.1.4</nacos.version>
 	</properties>
 
-	<repositories>
-		<repository>
-			<id>central</id>
-			<name>GP_ZaloPay-Storage-638.3-releases</name>
-			<url>https://artifactory.zalopay.com.vn/artifactory/paycon</url>
-		</repository>
-	</repositories>
+<!--	<repositories>-->
+<!--		<repository>-->
+<!--			<id>central</id>-->
+<!--			<name>GP_ZaloPay-Storage-638.3-releases</name>-->
+<!--			<url>https://artifactory.zalopay.com.vn/artifactory/paycon</url>-->
+<!--		</repository>-->
+<!--	</repositories>-->
 
 	<dependencies>
 		<dependency>
