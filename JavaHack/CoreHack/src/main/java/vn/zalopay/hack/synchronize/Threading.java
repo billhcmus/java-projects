@@ -1,28 +1,50 @@
 package vn.zalopay.hack.synchronize;
 
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
+import lombok.Builder;
 
-/**
- * Created by thuyenpt Date: 2020-04-02
- */
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.ReentrantLock;
+
+/** Created by thuyenpt Date: 2020-04-02 */
 public class Threading {
-  static AtomicInteger num = new AtomicInteger(0);
-  static class MyThread extends java.lang.Thread {
-    @Override
-    public void run() {
-      for (int i = 0; i < 100; i++) {
-        System.out.println(getName() + ":" + num.incrementAndGet());
-        yield();
-      }
+  @Builder
+  static class HotAccount {
+    ReentrantLock lock;
+    long balance;
+    public void show(String threadName) {
+      System.out.println("Thread: " + threadName);
     }
   }
+
+  private static HotAccount hotAccount = HotAccount.builder().lock(new ReentrantLock()).balance(0).build();
+
   public static void main(String[] args) throws InterruptedException {
-    MyThread thread = new MyThread();
-    thread.start();
-    System.out.println("Wait thread complete execute");
-    for (int i = 0; i < 100; i++) {
-      System.out.println(Thread.currentThread().getName() + ":" + num.incrementAndGet());
-    }
+    Thread thread1 = new Thread(() -> {
+      for (int i = 0; i < 100000; i++) {
+        boolean acquireLockSuccess = false;
+        try {
+          acquireLockSuccess = hotAccount.lock.tryLock(200, TimeUnit.MILLISECONDS);
+        } catch (InterruptedException e) {
+          Thread.currentThread().interrupt();
+        }
+        if (acquireLockSuccess) {
+          hotAccount.balance++;
+          hotAccount.lock.unlock();
+        }
+      }
+    });
+
+    Thread thread2 = new Thread(() -> {
+      for (int i = 0; i < 100000; i++) {
+        hotAccount.balance++;
+      }
+    });
+
+    thread1.start(); thread2.start();
+
+    thread1.join();
+    thread2.join();
+
+    System.out.println("main: " + hotAccount.balance);
   }
 }
