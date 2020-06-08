@@ -4,10 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /** Created by thuyenpt Date: 2020-03-27 */
@@ -29,15 +26,35 @@ public class Collections {
     changeList.add(Change.builder().id(4).version(4).build());
     changeList.add(Change.builder().id(4).version(5).build());
 
-//    Set<Long> uniqueIds = changeList.stream().map(Change::getId).collect(Collectors.toSet());
-//    uniqueIds.forEach(System.out::println);
+    //    Set<Long> uniqueIds = changeList.stream().map(Change::getId).collect(Collectors.toSet());
+    //    uniqueIds.forEach(System.out::println);
 
-    Map<Long, Long> mapVersions =
-        changeList.stream()
-            .collect(Collectors.toMap(Change::getId, change -> change.getVersion() - 1));
+//    Map<Long, Long> mapVersions =
+//        changeList.stream()
+//            .collect(Collectors.toMap(Change::getId, change -> change.getVersion() - 1));
+//
+//    Map<Long, List<Change>> changeMap =
+//        changeList.stream().collect(Collectors.groupingBy(Change::getId));
 
-    Map<Long, List<Change>> changeMap = changeList.stream().collect(Collectors.groupingBy(Change::getId));
+    LinkedHashMap<Long, String> changeLinkedHashMap =
+        new LinkedHashMap<Long, String>(0, 1F, false) {
+          @Override
+          protected boolean removeEldestEntry(Map.Entry<Long, String> eldest) {
+            return size() > 5;
+          }
+        };
 
-    System.out.println(mapVersions);
+    changeLinkedHashMap.put(1L, "a");
+    changeLinkedHashMap.put(2L, "b");
+    changeLinkedHashMap.put(3L, "c");
+    changeLinkedHashMap.put(4L, "d");
+    changeLinkedHashMap.put(5L, "e");
+
+    changeLinkedHashMap.put(6L, "e");
+    changeLinkedHashMap.put(7L, "e");
+    changeLinkedHashMap.put(8L, "e");
+
+
+    System.out.println(changeLinkedHashMap);
   }
 }
