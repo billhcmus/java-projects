@@ -6,8 +6,12 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import vn.zalopay.zas.dubbo.model.mapping.BankRouteRequest;
+import vn.zalopay.zas.dubbo.model.mapping.BankRouteResponse;
+import vn.zalopay.zas.dubbo.model.mapping.Channel;
 import vn.zalopay.zas.dubbo.model.transaction.*;
 import vn.zalopay.zas.dubbo.service.TransactionService;
+import vn.zalopay.zas.dubbo.service.ZASBankMappingService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,14 +20,22 @@ import java.util.List;
 @SpringBootApplication
 public class DubboConsumerApplication {
 
+  //  @Reference(
+  //      registry = "nacos://10.50.1.40:8848",
+  //      version = "0.0.7",
+  //      group = "zas-local",
+  //      timeout = 3000,
+  //      filter = "consumerFilter",
+  //      retries = 0)
+  private TransactionService transactionService;
+
   @Reference(
       registry = "nacos://10.50.1.40:8848",
       version = "0.0.7",
-      group = "zas-local",
+      group = "zas-bank-mapping-dev",
       timeout = 3000,
-      filter = "consumerFilter",
       retries = 0)
-  private TransactionService transactionService;
+  private ZASBankMappingService zasBankMappingService;
 
   public static void main(String[] args) {
     SpringApplication.run(DubboConsumerApplication.class, args);
@@ -31,12 +43,11 @@ public class DubboConsumerApplication {
 
   @Bean
   public ApplicationRunner runner() {
-    return transRecord();
+    return bankRoute();
   }
 
   ApplicationRunner transRecord() {
     return args -> {
-
       for (int i = 0; i < 5; i++) {
         List<Entry> entries = new ArrayList<>();
         entries.add(
@@ -73,10 +84,10 @@ public class DubboConsumerApplication {
   ApplicationRunner transQuery() {
     return args -> {
       TransQueryRequest request =
-              TransQueryRequest.builder()
-                      .queryByCase(TransQueryRequest.QueryByCase.TRANS_ID)
-                      .transId("1587539495101")
-                      .build();
+          TransQueryRequest.builder()
+              .queryByCase(TransQueryRequest.QueryByCase.TRANS_ID)
+              .transId("1587539495101")
+              .build();
 
       TransQueryResponse response = transactionService.transQuery(request);
 
@@ -104,19 +115,19 @@ public class DubboConsumerApplication {
     };
   }
 
-  //  ApplicationRunner bankRoute() {
-  //    return args -> {
-  //      BankRouteRequest request =
-  //          BankRouteRequest.builder()
-  //              .bankConnectorCode("ZPCS")
-  //              .mid("vngcorp")
-  //              .channel(Channel.CHANNEL_GATEWAY)
-  //              .subTransType(2101)
-  //              .accountingCode("1010001001")
-  //              .build();
-  //
-  //      BankRouteResponse response = zasBankMappingService.bankRoute(request);
-  //      System.out.println(response.getData().getAccountingId());
-  //    };
-  //  }
+  ApplicationRunner bankRoute() {
+    return args -> {
+      BankRouteRequest request =
+          BankRouteRequest.builder()
+              .bankConnectorCode("ZPCS")
+              .mid("vngcorp")
+              .channel(Channel.CHANNEL_GATEWAY)
+              .subTransType(2101)
+              .accountingCode("1010001001")
+              .build();
+
+      BankRouteResponse response = zasBankMappingService.bankRoute(request);
+      System.out.println(response);
+    };
+  }
 }
