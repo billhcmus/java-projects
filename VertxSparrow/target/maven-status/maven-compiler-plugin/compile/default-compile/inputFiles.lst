@@ -5,3 +5,4 @@
 /Users/thuyenpt/Desktop/learn-lang/java-projects/VertxSparrow/target/generated-sources/protobuf/grpc-java/examples/GreeterGrpc.java
 /Users/thuyenpt/Desktop/learn-lang/java-projects/VertxSparrow/target/generated-sources/protobuf/java/examples/HelloRequestOrBuilder.java
 /Users/thuyenpt/Desktop/learn-lang/java-projects/VertxSparrow/target/generated-sources/protobuf/java/examples/HelloWorldProto.java
+/Users/thuyenpt/Desktop/learn-lang/java-projects/VertxSparrow/src/main/java/vn/sparrow/vertx/service/GreeterService.java

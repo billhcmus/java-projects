@@ -39,10 +39,18 @@ public final class HelloWorldProto {
       "ld.HelloRequest\032\026.helloworld.HelloReply\"" +
       "\000B\035\n\010examplesB\017HelloWorldProtoP\001b\006proto3"
     };
-    descriptor = com.google.protobuf.Descriptors.FileDescriptor
+    com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
+        new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
+          public com.google.protobuf.ExtensionRegistry assignDescriptors(
+              com.google.protobuf.Descriptors.FileDescriptor root) {
+            descriptor = root;
+            return null;
+          }
+        };
+    com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
-        });
+        }, assigner);
     internal_static_helloworld_HelloRequest_descriptor =
       getDescriptor().getMessageTypes().get(0);
     internal_static_helloworld_HelloRequest_fieldAccessorTable = new

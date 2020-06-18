@@ -4,25 +4,26 @@ import io.grpc.BindableService;
 import io.grpc.ServerInterceptor;
 import io.vertx.core.Vertx;
 import io.vertx.grpc.BlockingServerInterceptor;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import vn.sparrow.vertx.common.ExceptionUtils;
-import vn.sparrow.vertx.common.VertxUtils;
-import vn.sparrow.vertx.interceptor.SparrowInterceptor;
-import vn.sparrow.vertx.server.GrpcServerScaling;
+import vn.sparrow.vertx.common.exception.InvalidParameterException;
+import vn.sparrow.vertx.common.server.GrpcServerScaling;
+import vn.sparrow.vertx.common.server.SparrowServerInterceptor;
+import vn.sparrow.vertx.common.utils.ConfigLoaderUtils;
+import vn.sparrow.vertx.common.utils.ExceptionUtils;
+import vn.sparrow.vertx.common.utils.VertxUtils;
+import vn.sparrow.vertx.config.ServerConfig;
 import vn.sparrow.vertx.service.GreeterService;
 
-import java.lang.invoke.MethodHandles;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
 /** Created by thuyenpt Date: 5/29/20 */
 public class Runner {
-  private static final Logger LOGGER =
-      LogManager.getLogger(MethodHandles.lookup().lookupClass().getCanonicalName());
+  public static void main(String[] args) throws FileNotFoundException, InvalidParameterException {
+    ServerConfig serverConfig = ConfigLoaderUtils.load(ServerConfig.class, "server.conf");
+    ConfigLoaderUtils.printValue(serverConfig);
+    Vertx vertx = VertxUtils.getVertxInstance(serverConfig.getVertxConfig());
 
-  public static void main(String[] args) {
-    Vertx vertx = VertxUtils.getVertxInstance();
     List<BindableService> bindableServices = new ArrayList<>();
 
     // Add service
@@ -31,7 +32,7 @@ public class Runner {
 
     // Server interceptor
     ServerInterceptor serverInterceptor =
-        BlockingServerInterceptor.wrap(vertx, new SparrowInterceptor());
+        BlockingServerInterceptor.wrap(vertx, new SparrowServerInterceptor());
 
     GrpcServerScaling grpcServerScaling =
         new GrpcServerScaling(vertx, bindableServices, serverInterceptor);
