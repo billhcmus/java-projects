@@ -1,6 +1,0 @@
-spring:
-  application:
-    name: dubboConsumer
-dubbo:
-  registry:
-    address: "nacos://10.50.1.40:8848"

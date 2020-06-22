@@ -1,0 +1,2 @@
+JMH S 32 vn.zalopay.hack.selection.Runner S 60 vn.zalopay.hack.selection.generated.Runner_benchmark_jmhTest S 9 benchmark S 11 AverageTime E A 1 1 1 E I 2 15 E E I 2 60 E E I 1 4 E E L 2 6 -Xms2G 6 -Xmx2G E E E U 12 MILLISECONDS E E 
+JMH S 29 vn.zalopay.hack.hotspot.InOut S 57 vn.zalopay.hack.hotspot.generated.InOut_benchmark_jmhTest S 9 benchmark S 11 AverageTime E A 1 1 1 E I 2 15 E E I 2 60 E E I 1 4 E E L 2 6 -Xms2G 6 -Xmx2G E E E U 12 MILLISECONDS E E 
